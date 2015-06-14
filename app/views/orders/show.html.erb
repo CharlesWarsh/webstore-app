@@ -1,0 +1,33 @@
+<div class="container-fluid">
+
+<h1>Order Confirmation Page</h1>
+
+<br>
+
+  
+
+
+    <div class="row">
+      <div class="col-sm-4">
+        <div id="name_and_price">
+          <h3>ORDER ID: <%= @order.id %></h3>
+          <h3>QUANTITY: <%=@order.quantity%></h3>
+          <h3>PRODUCT ID: <%= @order.product_id%></h3>
+          <h3>Subtotal: <%= number_to_currency(@order.subtotal, precision: 2) %></h3>
+          <h3>Tax: <%= number_to_currency(@order.tax, precision: 2) %></h3>
+          <h3>Total: <%= number_to_currency(@order.total, precision: 2) %></h3>
+          <h3>Orderer's Email: <%= @email %></h3>
+          <h3>ORDER TIME: <%= @order.created_at %></h3>
+  
+        </div>
+      </div>
+
+      <div class="col-sm-4">
+
+      </div>
+
+      <div class="col-sm-4">
+      </div>
+      </div>
+
+</div>

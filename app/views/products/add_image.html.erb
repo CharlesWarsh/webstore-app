@@ -1,0 +1,14 @@
+<h1>Add Product Image</h1>
+
+<%= form_tag "/products", method: :post do %>
+  <div>
+    <%= label_tag :product_id %>
+    <%= text_field_tag :product_id %>
+  </div>
+  <div>
+    <%= label_tag :image_url %>
+    <%= text_field_tag :image_url %>
+  </div>
+  <%= submit_tag "Add Image" %>
+
+<% end %>

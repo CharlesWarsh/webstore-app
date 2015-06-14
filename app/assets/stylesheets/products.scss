@@ -1,0 +1,22 @@
+// Place all the styles related to the products controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#name_and_price {
+  color: grey;
+}
+
+.container-fluid {
+  padding: 0 5%;
+}
+
+#description {
+  background-color: grey;
+  color: white;
+  padding: 5% 5% 5% 5%;
+  margin: 5% 5% 5% 5%;
+}
+
+body {
+  background-image: url("retina_wood.png");
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
