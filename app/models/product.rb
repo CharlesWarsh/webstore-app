@@ -1,10 +1,9 @@
 class Product < ActiveRecord::Base
-belongs_to :supplier
 has_many :images
 has_many :orders
 has_many :category_tags
 has_many :categories, through: :category_tags
-
+belongs_to :supplier
 
   def sale_message
     price_for_this = price.to_i

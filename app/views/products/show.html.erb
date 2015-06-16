@@ -42,6 +42,12 @@
       <div class="col-sm-4">
         <div id="description">
           <h4><%= @product.description %></h4>
+          <h5>Categories:</h5>
+          <ul>
+            <% @product.categories.each do |category| %>
+            <li><h6><%= category.name %></h6></li>
+            <% end %>
+          </ul>
         </div>
       </div>
       </div>
