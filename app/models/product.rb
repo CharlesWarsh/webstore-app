@@ -2,6 +2,8 @@ class Product < ActiveRecord::Base
 has_many :images
 has_many :orders
 has_many :category_tags
+has_many :carted_products
+has_many :users, through: :carted_products
 has_many :categories, through: :category_tags
 belongs_to :supplier
 
