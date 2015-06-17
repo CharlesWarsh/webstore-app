@@ -1,0 +1,42 @@
+<div class="container-fluid">
+
+<h1>Carted Products Page</h1>
+<h5><%= link_to "Add New Product", "/products/new" %>
+
+<br>
+
+  
+
+    <% @carted_products.each do |carted_product| %>
+      <% if carted_product.user_id == current_user.id && carted_product.status == "carted" %>
+        <div class="row">
+          <div class="col-sm-4">
+            <div id="name_and_price">
+              <h3><%= @products.find_by(id: carted_product.product_id).product_name %></h3>
+              <h4><%= number_to_currency(@products.find_by(id: carted_product.product_id).price, precision: 0) %></h4>
+              <h5>Quantity: <%= carted_product.quantity %></h5>
+              <h5> <%= link_to "Details by link_to", "/products/#{carted_product.product_id}" %> </h5>
+              <h5> <%= link_to "Edit", "/products/#{carted_product.product_id}/edit" %> </h5>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <%= image_tag @products.find_by(id: carted_product.product_id).images.first.image_url, width: 372 %>
+          </div>
+
+          <div class="col-sm-4">
+            <div id="description">
+              <h4><%= @products.find_by(id: carted_product.product_id).description %></h4>
+            </div>
+          </div>
+          </div>
+        <% end %>
+    <% end %>
+
+    <%= form_tag "/orders", method: :post do %>
+      <div>
+      </div>
+      <%= submit_tag "Buy Now!" %>
+    <% end %>
+
+</div>

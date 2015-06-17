@@ -1,13 +1,24 @@
 class OrdersController < ApplicationController
   def create
-    @product = Product.find_by(id: params[:product_id])
-    
-    price = @product.price
-    subtotal = price * params[:quantity].to_i
+  subtotal = 0
+
+  @product = Product.find_by(id: params[:product_id])
+  @products = Product.all
+  @carted_products = CartedProduct.all
+  
+  @carted_products.each do |carted_product|
+    if carted_product.status == "carted"
+      @price = @products.find_by(id: carted_product.product_id).price
+      @quantity = carted_product.quantity
+      subtotal += (@price * @quantity)
+      carted_product.update({status: "purchased"}, {order_id: order.id})
+    end
+  end
+
     tax = subtotal * 0.09
     total = subtotal + tax
     
-    order = Order.create(quantity: params[:quantity], user_id: current_user.id, product_id: params[:product_id], subtotal: subtotal, tax: tax, total: total)
+    order = Order.create(user_id: current_user.id, subtotal: subtotal, tax: tax, total: total)
 
     #order.subtotal = order.calculate_subtotal(price)
     #order.tax = order.calculate_tax(price)

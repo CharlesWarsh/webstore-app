@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get "/" => 'products#index'
   root to: 'products#index'
   get "/products" => 'products#index'
+  get "/carted_products" => 'carted_products#index'
   get "/products/new" => 'products#new'
   get "/search" => 'products#search'
   get "/products/add_image" => 'products#add_image'
@@ -14,6 +15,7 @@ Rails.application.routes.draw do
   patch "/products/:id" => 'products#update'
   delete "/products/:id" => 'products#destroy'
   post "/search" => 'products#submit_search'
+  post "/carted_products" => 'carted_products#create'
   post "/orders" => 'orders#create'
 
 end
