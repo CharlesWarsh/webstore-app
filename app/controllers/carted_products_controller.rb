@@ -40,9 +40,13 @@ class CartedProductsController < ApplicationController
     @product = Product.find_by(id: params[:product_id])
     
     order = CartedProduct.create(quantity: params[:quantity], user_id: current_user.id, product_id: params[:product_id], status: "carted")
+    if order.save
+      redirect_to "/carted_products"
+    else
+      render "/products/show"
+    end
 
     flash[:success] = "Carted!"
-    redirect_to "/carted_products/"
 
   end
 
