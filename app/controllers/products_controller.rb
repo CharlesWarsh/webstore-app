@@ -1,4 +1,5 @@
 class ProductsController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show, :search, :create]
 
   def home
   end
@@ -29,12 +30,15 @@ class ProductsController < ApplicationController
   end
 
   def new
+    unless user_signed_in? && current_user.admin
+      redirect_to "/"
+    end
   end
 
   def create
-    product = Product.create(product_name: params[:product_name], price: params[:price], image: params[:image], description: params[:description], key_points: params[:key_points])
-    flash[:success] = "Product Created!"
-    redirect_to "/products/#{product.id}"
+      product = Product.create(product_name: params[:product_name], price: params[:price], description: params[:description], key_points: params[:key_points])
+      flash[:success] = "Product Created!"
+      redirect_to "/products/#{product.id}"
   end
 
   def edit
@@ -43,18 +47,24 @@ class ProductsController < ApplicationController
   end
 
   def update
-    product_id = params[:id]
-    @product = Product.find_by(id: product_id)
-    @product.update(product_name: params[:product_name], price: params[:price], image: params[:image], description: params[:description], key_points: params[:key_points])
-    flash[:success] = "Product Updated!"
-    redirect_to "/products/#{product_id}"
+    if user_signed_in? && current_user.admin
+      product_id = params[:id]
+      @product = Product.find_by(id: product_id)
+      @product.update(product_name: params[:product_name], price: params[:price], description: params[:description], key_points: params[:key_points])
+      flash[:success] = "Product Updated!"
+      redirect_to "/products/#{product_id}"
+    else
+      redirect_to "/"
+    end
   end
 
   def destroy
-    product_id = params[:id]
-    @product = Product.find_by(id: product_id)
-    @product.destroy
-    flash[:warning] = "Product Deleted!"
+    unless user_signed_in? && current_user.admin
+      product_id = params[:id]
+      @product = Product.find_by(id: product_id)
+      @product.destroy
+      flash[:warning] = "Product Deleted!"
+    end
     redirect_to "/products"
   end
 
@@ -71,10 +81,20 @@ class ProductsController < ApplicationController
   end
 
   def create_image
-    Image.create(product_id: params[:product_id], image_url: params[:image_url])
-    flash[:success] = "Image Added!"
-    product_id = params[:product_id]
-    redirect_to "/products/#{product_id}"
+    unless user_signed_in? && current_user.admin
+      Image.create(product_id: params[:product_id], image_url: params[:image_url])
+      flash[:success] = "Image Added!"
+      product_id = params[:product_id]
+      redirect_to "/products/#{product_id}"
+    else
+      redirect_to "/"
+    end
+  end
+
+  def authenticate_admin!
+    unless user_signed_in? && current_user.admin
+      redirect_to "/"
+    end
   end
 
 end

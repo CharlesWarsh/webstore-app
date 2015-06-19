@@ -24,7 +24,9 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="/products/new">Create a New Product <span class="sr-only">(current)</span></a></li>
+        <% if user_signed_in? && current_user.admin %>
+          <li class="active"><a href="/products/new">Create a New Product <span class="sr-only">(current)</span></a></li>
+        <% end %>
         <li><a href="/products?disc=price">Discount BMWs</a></li>
         <li><a href="/products?random=id">Random BMW</a></li>
         <li class="dropdown">
@@ -34,7 +36,9 @@
             <li><a href="/products?sort=price&sort_order=desc">Price: Highest to Lowest</a></li>
             <li><a href="#">Something else here</a></li>
             <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <% if user_signed_in? && current_user.admin %>
+            <li><a href="/products/add_image">Add Product Images</a></li>
+            <% end %>
             <li class="divider"></li>
             <li><a href="#">One more separated link</a></li>
           </ul>
@@ -63,7 +67,11 @@
             <li><%= link_to "Sign In", "/users/sign_in" if current_user == nil %></li>
             <li><a href="/users/sign_up">Create An Account</a></li>
             <li class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <% if CartedProduct.all.where(status: "carted").count != 0 %>
+              <li><a href="/carted_products"><span class="glyphicon glyphicon-shopping-cart"> Shopping Cart</span></a></li>
+            <% else %>
+              <li><a href="/products"><span class="glyphicon glyphicon-shopping-cart"> Shopping Cart</span></a></li>
+            <% end %>
           </ul>
         </li>
       </ul>

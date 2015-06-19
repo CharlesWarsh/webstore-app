@@ -15,6 +15,7 @@
               <h3><%= @products.find_by(id: carted_product.product_id).product_name %></h3>
               <h4><%= number_to_currency(@products.find_by(id: carted_product.product_id).price, precision: 0) %></h4>
               <h5>Quantity: <%= carted_product.quantity %></h5>
+              <h5><%= link_to "Remove Product", "/carted_products/#{carted_product.id}", method: :delete %></h5>
               <h5> <%= link_to "Details by link_to", "/products/#{carted_product.product_id}" %> </h5>
               <h5> <%= link_to "Edit", "/products/#{carted_product.product_id}/edit" %> </h5>
             </div>

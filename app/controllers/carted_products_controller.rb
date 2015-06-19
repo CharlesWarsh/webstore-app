@@ -1,4 +1,5 @@
 class CartedProductsController < ApplicationController
+  before_action :authenticate_user!
 
 
   def index
@@ -48,6 +49,14 @@ class CartedProductsController < ApplicationController
   def show
 
 
+  end
+
+  def destroy
+    cartedproduct_id = params[:id]
+    @cartedproduct = CartedProduct.find_by(id: cartedproduct_id)
+    @cartedproduct.update(status: "removed")
+    flash[:warning] = "Product Removed!"
+    redirect_to "/carted_products"
   end
 
 end

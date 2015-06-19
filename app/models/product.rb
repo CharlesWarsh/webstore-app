@@ -7,6 +7,13 @@ has_many :users, through: :carted_products
 has_many :categories, through: :category_tags
 belongs_to :supplier
 
+validates :product_name, presence: true
+validates :product_name, uniqueness: true
+validates :price, presence: true
+validates :price, numericality: true
+validates :description, presence: true
+
+
   def sale_message
     price_for_this = price.to_i
     if price_for_this < 2

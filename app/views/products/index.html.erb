@@ -15,7 +15,9 @@
             <h4><%= number_to_currency(product.price, precision: 0) %></h4>
             <h5><a href="/products/<%=product.id%>">Details</a></h5>
             <h5> <%= link_to "Details by link_to", "/products/#{product.id}" %> </h5>
-            <h5> <%= link_to "Edit", "/products/#{product.id}/edit" %> </h5>
+            <% if user_signed_in? && current_user.admin %>
+              <h5> <%= link_to "Edit", "/products/#{product.id}/edit" %> </h5>
+            <% end %>
           </div>
         </div>
 

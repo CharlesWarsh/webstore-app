@@ -4,6 +4,7 @@ has_many :carted_products
 belongs_to :user
 belongs_to :product
 
+
 def calculate_subtotal(price)
   quantity * price
 end
