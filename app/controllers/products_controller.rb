@@ -30,15 +30,20 @@ class ProductsController < ApplicationController
   end
 
   def new
+    @product = Product.new
     unless user_signed_in? && current_user.admin
       redirect_to "/"
     end
   end
 
   def create
-      product = Product.create(product_name: params[:product_name], price: params[:price], description: params[:description], key_points: params[:key_points])
-      flash[:success] = "Product Created!"
-      redirect_to "/products/#{product.id}"
+      @product = Product.new(product_name: params[:product_name], price: params[:price], description: params[:description], key_points: params[:key_points], supplier_id: params[:supplier_id])
+      if @product.save
+        redirect_to "/products/#{@product.id}"
+        flash[:success] = "Product Created!"
+      else
+        render "new"
+      end
   end
 
   def edit
@@ -50,9 +55,13 @@ class ProductsController < ApplicationController
     if user_signed_in? && current_user.admin
       product_id = params[:id]
       @product = Product.find_by(id: product_id)
-      @product.update(product_name: params[:product_name], price: params[:price], description: params[:description], key_points: params[:key_points])
-      flash[:success] = "Product Updated!"
-      redirect_to "/products/#{product_id}"
+      if @product.update(product_name: params[:product_name], price: params[:price], description: params[:description], key_points: params[:key_points])
+
+        flash[:success] = "Product Updated!"
+        redirect_to "/products/#{product_id}"
+      else
+          render "edit"
+      end
     else
       redirect_to "/"
     end
